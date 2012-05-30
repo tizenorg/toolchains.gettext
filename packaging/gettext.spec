@@ -16,6 +16,7 @@ Url:            http://www.gnu.org/software/gettext/
 Group:          Development/Tools
 Source:         ftp://ftp.gnu.org/gnu/gettext/%{name}-%{version}.tar.gz
 Source2:        msghack.py
+Source1001: packaging/gettext.manifest 
 Patch0:         no_examples.patch
 
 BuildRequires:  autoconf >= 2.5
@@ -74,6 +75,7 @@ This package contains libraries used internationalization support.
 
 
 %build
+cp %{SOURCE1001} .
 [ -f  %{_datadir}/automake/depcomp ] && cp -f %{_datadir}/automake/{depcomp,ylwrap} .
 
 %ifarch %arm
@@ -145,6 +147,7 @@ make check
 %docs_package
 
 %files tools -f %{name}.lang
+%manifest gettext.manifest
 %defattr(-,root,root,-)
 %doc COPYING 
 %{_datadir}/%{name}/projects/*
@@ -194,6 +197,7 @@ make check
 # involve unneeded files. If you need to include a file in -libs, list
 # it here explicitly
 %files runtime
+%manifest gettext.manifest
 %defattr(-,root,root,-)
 # Files listed here should be of LGPL license only, refer to upstream
 # statement in PACKAGING file
