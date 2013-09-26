@@ -129,6 +129,9 @@ rm %{buildroot}%{_libdir}/lib*.la
 %find_lang %{name}-tools
 cat %{name}-*.lang > %{name}.lang
 
+mkdir -p %{buildroot}/usr/share/license
+cp COPYING %{buildroot}/usr/share/license/%{name}
+
 %clean
 rm -rf %{buildroot}
 
@@ -149,7 +152,8 @@ make check
 %files tools -f %{name}.lang
 %manifest gettext.manifest
 %defattr(-,root,root,-)
-%doc COPYING 
+%doc COPYING
+/usr/share/license/%{name}
 %{_datadir}/%{name}/projects/*
 %{_datadir}/%{name}/config.rpath
 %{_datadir}/%{name}/*.h
