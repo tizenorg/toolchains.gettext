@@ -153,7 +153,6 @@ make check
 %manifest gettext.manifest
 %defattr(-,root,root,-)
 %doc COPYING
-/usr/share/license/%{name}
 %{_datadir}/%{name}/projects/*
 %{_datadir}/%{name}/config.rpath
 %{_datadir}/%{name}/*.h
@@ -206,6 +205,7 @@ make check
 # Files listed here should be of LGPL license only, refer to upstream
 # statement in PACKAGING file
 %doc gettext-runtime/intl/COPYING*
+/usr/share/license/%{name}
 %doc %{_datadir}/gettext/ABOUT-NLS
 /bin/gettext
 %{_bindir}/gettext
