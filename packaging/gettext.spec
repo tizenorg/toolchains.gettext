@@ -4,6 +4,7 @@
 # others parts are of GPL. You should be careful of the license when
 # adding files into these sub-packages.
 
+
 %define enable_testing 0
 
 Name:           gettext
