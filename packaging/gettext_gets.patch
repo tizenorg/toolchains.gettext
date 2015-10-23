@@ -1,0 +1,51 @@
+diff --git a/gettext-runtime/gnulib-lib/stdio.in.h b/gettext-runtime/gnulib-lib/stdio.in.h
+index c43848e..0fe1c6c 100644
+--- a/gettext-runtime/gnulib-lib/stdio.in.h
++++ b/gettext-runtime/gnulib-lib/stdio.in.h
+@@ -137,12 +137,6 @@ _GL_WARN_ON_USE (fflush, "fflush is not always POSIX compliant - "
+                  "use gnulib module fflush for portable POSIX compliance");
+ #endif
+ 
+-/* It is very rare that the developer ever has full control of stdin,
+-   so any use of gets warrants an unconditional warning.  Assume it is
+-   always declared, since it is required by C89.  */
+-#undef gets
+-_GL_WARN_ON_USE (gets, "gets is a security hole - use fgets instead");
+-
+ #if @GNULIB_FOPEN@
+ # if @REPLACE_FOPEN@
+ #  if !(defined __cplusplus && defined GNULIB_NAMESPACE)
+diff --git a/gettext-tools/gnulib-lib/stdio.in.h b/gettext-tools/gnulib-lib/stdio.in.h
+index c43848e..0fe1c6c 100644
+--- a/gettext-tools/gnulib-lib/stdio.in.h
++++ b/gettext-tools/gnulib-lib/stdio.in.h
+@@ -137,12 +137,6 @@ _GL_WARN_ON_USE (fflush, "fflush is not always POSIX compliant - "
+                  "use gnulib module fflush for portable POSIX compliance");
+ #endif
+ 
+-/* It is very rare that the developer ever has full control of stdin,
+-   so any use of gets warrants an unconditional warning.  Assume it is
+-   always declared, since it is required by C89.  */
+-#undef gets
+-_GL_WARN_ON_USE (gets, "gets is a security hole - use fgets instead");
+-
+ #if @GNULIB_FOPEN@
+ # if @REPLACE_FOPEN@
+ #  if !(defined __cplusplus && defined GNULIB_NAMESPACE)
+diff --git a/gettext-tools/libgettextpo/stdio.in.h b/gettext-tools/libgettextpo/stdio.in.h
+index c43848e..0fe1c6c 100644
+--- a/gettext-tools/libgettextpo/stdio.in.h
++++ b/gettext-tools/libgettextpo/stdio.in.h
+@@ -137,12 +137,6 @@ _GL_WARN_ON_USE (fflush, "fflush is not always POSIX compliant - "
+                  "use gnulib module fflush for portable POSIX compliance");
+ #endif
+ 
+-/* It is very rare that the developer ever has full control of stdin,
+-   so any use of gets warrants an unconditional warning.  Assume it is
+-   always declared, since it is required by C89.  */
+-#undef gets
+-_GL_WARN_ON_USE (gets, "gets is a security hole - use fgets instead");
+-
+ #if @GNULIB_FOPEN@
+ # if @REPLACE_FOPEN@
+ #  if !(defined __cplusplus && defined GNULIB_NAMESPACE)

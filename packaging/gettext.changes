@@ -1,28 +1,17 @@
-* Mon Jul 12 2010 Yan Li <yan.i.li@intel.com> - 0.18.1.1
-- Split package according to upstream PACKAGING advice: gettext is
-  split into two packages: gettext-libs and gettext-devel.
-  gettext-libs is an LGPLv2+ package that contains libraries and
-  runtime needed by i18n programs; gettext-devel is used only for
-  development and building -- and shouldn't be needed by end users.
-  Package that needs gettext should include gettext-libs in Requires
-  and gettext-devel in BuildRequires (gettext is now a meta-package
-  that depends on gettext-devel for transition.)
-- Updated to latest upstream release
-- Patch gettext-0.17-open-args.patch dropped, already in upstream
+* Mon Feb 10 2014 Maciej Wereski <m.wereski@partner.samsung.com> upstream/0.18.3.2
+- Upgrade to 0.18.3.2
 
-* Mon Jun 05 2010 Jan-Simon Möller <jsmoeller@linuxfoundation.org> - 0.17
-- Disable pthread and openmp usage on ARM because of qemu-arm threading bug.
+* Mon Feb 10 2014 Karol Lewandowski <k.lewandowsk@samsung.com>
+- Add BuildRequire to enable iconv support
+- Fix RPMLINT
 
-* Wed Mar 31 2010 Yan Li <yan.i.li@intel.com> - 0.17
-- Changelog cleanup
-- Include missing files in /bin
+* Tue Nov 19 2013 Ronan Le Martret <ronan@fridu.net> fe945ec
+- packaging: create a directory to fix %reconfigure (DEVT-123)
 
-* Thu Mar 04 2010 Anas Nashif <anas.nashif@intel.com> - 0.17
-- Require cvs
-- Cleanup
+* Fri Jun 28 2013 Alexandru Cornea <alexandru.cornea@intel.com> 85c26f5
+- resetting manifest requested domain to floor
 
-* Thu Sep 18 2008 Austin Zhang <austin.zhang@intel.com> 0.17
-- add check for the info file before installation
+* Thu Nov 8 2012 Anas Nashif <anas.nashif@intel.com> 3351151
+- add packaging
+- Imported Upstream version 0.18.1.1
 
-* Wed Jul 23 2008 Vivian Zhang <vivian.zhang@intel.com> 
-- Add %doc to man/info in %files

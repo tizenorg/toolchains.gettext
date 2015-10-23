@@ -8,22 +8,24 @@
 %define enable_testing 0
 
 Name:           gettext
-Version:        0.18.1.1
-Release:        2
-License:        GPL-3.0+
+Version:        0.18.3.2
+Release:        1
+License:        GPL-3.0+ and LGPL-2.0+
 Summary:        GNU libraries and utilities for producing multi-lingual messages
 Url:            http://www.gnu.org/software/gettext/
 Group:          Development/Tools
 Source:         ftp://ftp.gnu.org/gnu/gettext/%{name}-%{version}.tar.gz
 Source2:        msghack.py
-Patch0:         no_examples.patch
+Source1001:     gettext.manifest
 
 BuildRequires:  autoconf >= 2.5
 BuildRequires:  bison
 # need expat for xgettext on glade
 BuildRequires:  expat-devel
-BuildRequires:  gcc-c++
 BuildRequires:  libtool
+#needed for ANSI to UTF8 conversion using msgconn
+#BuildRequires:  gcc-c++
+#BuildRequires:  libunistring
 
 %description
 The GNU gettext package provides a set of tools and documentation for
@@ -45,12 +47,12 @@ users.  This gettext package is a meta-package that depends on
 gettext-devel for transition.
 
 %package tools
-License:        GPLv3+
+License:        GPL-3.0+
 Summary:        Development files for %{name}
 Group:          Development/Tools
 Requires:       %{name}-runtime = %{version}
-Obsoletes:   gettext-devel <= 0.18.1.1-1.15
-Provides:    gettext-devel
+Obsoletes:      gettext-devel <= 0.18.1.1-1.15
+Provides:       gettext-devel
 
 %description tools
 This package contains all development related files necessary for
@@ -59,21 +61,21 @@ internationalization capability. You also need this package if you
 want to add gettext support for your project.
 
 %package runtime
-License:        LGPLv2+
+License:        LGPL-2.0+
 Summary:        Libraries for %{name}
 Group:          System/Libraries
-Obsoletes:   gettext-libs <= 0.18.1.1-1.15
-Provides:    gettext-libs
+Obsoletes:      gettext-libs <= 0.18.1.1-1.15
+Provides:       gettext-libs
 
 %description runtime
 This package contains libraries used internationalization support.
 
 %prep
 %setup -q
-%patch0 -p1
 
 
 %build
+cp %{SOURCE1001} .
 [ -f  %{_datadir}/automake/depcomp ] && cp -f %{_datadir}/automake/{depcomp,ylwrap} .
 
 %ifarch %arm
@@ -83,22 +85,21 @@ This package contains libraries used internationalization support.
 %else
 %endif
 
+mkdir -p gettext-tools/intl
+
 %reconfigure --without-included-gettext --enable-nls --disable-static \
     --enable-shared --with-pic-=yes --disable-csharp --without-libpth-prefix --disable-openmp
-make %{?jobs:-j%jobs} GCJFLAGS="-findirect-dispatch"
+make %{?_smp_mflags} GCJFLAGS="-findirect-dispatch"
 
+#%check
+#make check
 
 %install
-make install DESTDIR=%{buildroot} INSTALL="%{__install} -p" \
+make install DESTDIR=%{buildroot} INSTALL="install -p" \
     lispdir=%{_datadir}/emacs/site-lisp \
     aclocaldir=%{_datadir}/aclocal EXAMPLESFILES=""
 
-# move gettext to /bin
-mkdir -p %{buildroot}/bin
-mv %{buildroot}%{_bindir}/gettext %{buildroot}/bin
-ln -s ../../bin/gettext %{buildroot}%{_bindir}/gettext
-
-install -pm 755 %SOURCE2 %{buildroot}%{_bindir}/msghack
+install -pm 755 %{SOURCE2} %{buildroot}%{_bindir}/msghack
 
 # make preloadable_libintl.so executable
 chmod 755 %{buildroot}%{_libdir}/preloadable_libintl.so
@@ -123,30 +124,25 @@ rm -r %{buildroot}%{_datadir}/doc/gettext
 rm -rf %{buildroot}%{_datadir}/emacs
 rm %{buildroot}%{_libdir}/lib*.la
 
+
 %find_lang %{name}-runtime
 %find_lang %{name}-tools
 cat %{name}-*.lang > %{name}.lang
 
-%clean
-rm -rf %{buildroot}
-
-
-%check
-%if %{enable_testing}
-make check
-%endif
-
-
+%docs_package
 
 %post runtime -p /sbin/ldconfig
 
 %postun runtime -p /sbin/ldconfig
 
-%docs_package
+%post tools -p /sbin/ldconfig
+
+%postun tools -p /sbin/ldconfig
 
 %files tools -f %{name}.lang
+%manifest %{name}.manifest
 %defattr(-,root,root,-)
-%doc COPYING 
+%license COPYING
 %{_datadir}/%{name}/projects/*
 %{_datadir}/%{name}/config.rpath
 %{_datadir}/%{name}/*.h
@@ -165,10 +161,8 @@ make check
 %{_libdir}/gettext/urlget
 %{_libdir}/gettext/user-email
 %{_libdir}/libgettextpo.so.*
-#%{_libdir}/%{name}/gnu.gettext.*
 %{_datadir}/%{name}/javaversion.class
-#%exclude %{_libdir}/%{name}/gnu.gettext.*
-%{_datadir}/%{name}/archive*.tar.gz
+%{_datadir}/%{name}/archive*.tar.xz
 %{_datadir}/%{name}/styles
 %{_bindir}/autopoint
 %{_bindir}/gettextize
@@ -189,17 +183,17 @@ make check
 %{_bindir}/msguniq
 %{_bindir}/recode-sr-latin
 %{_bindir}/xgettext
-   
+
 # Don't include language files here since that may inadvertently
 # involve unneeded files. If you need to include a file in -libs, list
 # it here explicitly
 %files runtime
+%manifest %{name}.manifest
 %defattr(-,root,root,-)
 # Files listed here should be of LGPL license only, refer to upstream
 # statement in PACKAGING file
-%doc gettext-runtime/intl/COPYING*
+%license gettext-runtime/intl/COPYING*
 %doc %{_datadir}/gettext/ABOUT-NLS
-/bin/gettext
 %{_bindir}/gettext
 %{_bindir}/ngettext
 %{_bindir}/envsubst
